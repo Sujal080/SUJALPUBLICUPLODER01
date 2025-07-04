@@ -387,17 +387,7 @@ async def getcookies_handler(client: Client, m: Message):
         await m.reply_text(f"⚠️ An error occurred: {str(e)}")
 
 @bot.on_message(filters.command(["stop"]) )
-async def restart_handler(_, m):
-    if m.chat.id not in AUTH_USERS:
-        print(f"User ID not in AUTH_USERS", m.chat.id)
-        await bot.send_message(
-            m.chat.id, 
-            f"<blockquote>__**Oopss! You are not a Premium member**__\n"
-            f"__**PLEASE /upgrade YOUR PLAN**__\n"
-            f"__**Send me your user id for authorization**__\n"
-            f"__**Your User id** __- `{m.chat.id}`</blockquote>\n\n"
-        )
-    else:
+async def restart_handler(_, m):      
         await m.reply_text("🌸**𝕊𝕋𝕆ℙℙ𝔼𝔻**🌸", True)
         os.execl(sys.executable, sys.executable, *sys.argv)
         
@@ -442,7 +432,6 @@ async def start(bot, m: Message):
     )
 
     await asyncio.sleep(1)
-    if m.chat.id in AUTH_USERS:
         await start_message.edit_text(
             f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n" +
             f"Great! You are a premium member!\n"
@@ -568,19 +557,23 @@ async def send_logs(client: Client, m: Message):  # Correct parameter name
     except Exception as e:
         await m.reply_text(f"Error sending logs: {e}")
 
-@bot.on_message(filters.command(["drm"]) )
+@bot.on_message(filters.command(["drm"]))
 async def txt_handler(bot: Client, m: Message):  
-    if m.chat.id not in AUTH_USERS:
-            print(f"User ID not in AUTH_USERS", m.chat.id)
-            await bot.send_message(m.chat.id, f"<blockquote>__**Oopss! You are not a Premium member\nPLEASE /upgrade YOUR PLAN\nSend me your user id for authorization\nYour User id**__ - `{m.chat.id}`</blockquote>\n")
-            return
-    editable = await m.reply_text(f"**__Hii, I am non-drm Downloader Bot__\n<blockquote><i>Send Me Your text file which enclude Name with url...\nE.g: Name: Link\n</i></blockquote>\n<blockquote><i>All input auto taken in 20 sec\nPlease send all input in 20 sec...\n</i></blockquote>**")
+    editable = await m.reply_text(
+        "**__Hii, I am non-drm Downloader Bot__\n"
+        "<blockquote><i>Send Me Your text file which includes Name with URL...\n"
+        "E.g: Name: Link</i></blockquote>\n"
+        "<blockquote><i>All input auto taken in 20 sec\nPlease send all input in 20 sec...</i></blockquote>**"
+    )
+
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await bot.send_document(OWNER, x)
     await input.delete(True)
+
     file_name, ext = os.path.splitext(os.path.basename(x))  # Extract filename & extension
     path = f"./downloads/{m.chat.id}"
+
     
     pdf_count = 0
     img_count = 0
