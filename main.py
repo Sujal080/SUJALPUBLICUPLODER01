@@ -438,8 +438,8 @@ async def start(bot, m: Message):
             f"Use Command : /help to get started 🌟\n\n"
             f"If you face any problem contact -  [𓍯𝙎𝙪𝙟𝙖𝙡✿](https://t.me/Lallantoop)\n", disable_web_page_preview=True, reply_markup=BUTTONSCONTACT
         )
-        await asyncio.sleep(2)
-        await start_message.edit_text(
+    await asyncio.sleep(2)
+    await start_message.edit_text(
            f" 🎉 Welcome {m.from_user.first_name} to DRM Bot! 🎉\n\n"
            f"You can have access to download all Non-DRM+AES Encrypted URLs 🔐 including\n\n"
            f"Use Command : /help to get started 🌟\n\n"
